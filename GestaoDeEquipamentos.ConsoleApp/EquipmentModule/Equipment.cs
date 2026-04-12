@@ -1,3 +1,4 @@
+using System.Reflection.Metadata;
 using GestaoDeEquipamentos.ConsoleApp.Shared.BaseModule;
 
 namespace GestaoDeEquipamentos.ConsoleApp.EquipmentModule;
@@ -16,12 +17,21 @@ public class Equipment : BaseEntity<Equipment>
         Manufacturer = manufacturer;
         Date = date;
     }
-
     public override void UpdateEntity(Equipment updatedEntity)
     {
         Name = updatedEntity.Name;
         Price = updatedEntity.Price;
         Manufacturer = updatedEntity.Manufacturer;
         Date = updatedEntity.Date;
+    }
+    public override bool Equals(Equipment equipment)
+    {
+        if (equipment is null) return false;
+        if (equipment.Name != Name
+            || equipment.Price != Price
+            || equipment.Manufacturer != Manufacturer
+            || equipment.Date != Date)
+            return false;
+        return true;
     }
 }

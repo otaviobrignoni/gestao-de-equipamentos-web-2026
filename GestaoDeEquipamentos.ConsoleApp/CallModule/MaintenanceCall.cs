@@ -17,6 +17,19 @@ public class MaintenanceCall : BaseEntity<MaintenanceCall>
         Equipment = equipment;
         OpeningDate = date;
     }
+
+    public override bool Equals(MaintenanceCall maintenaceCall)
+    {
+        if (maintenaceCall is null) return false;
+        if (Title != maintenaceCall.Title
+            || Description != maintenaceCall.Description
+            || Equipment != maintenaceCall.Equipment
+            || OpeningDate != maintenaceCall.OpeningDate)
+            return false;
+        return true;
+
+    }
+
     public override void UpdateEntity(MaintenanceCall updatedEntity)
     {
         Title = updatedEntity.Title;
