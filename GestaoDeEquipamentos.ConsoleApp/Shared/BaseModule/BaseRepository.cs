@@ -25,6 +25,7 @@ public class BaseRepository<T> where T : BaseEntity<T>
         return Entities.TryGetValue(id, out entity);
     }
     public IEnumerable<T> GetAll() => Entities.Values;
+    public int Count() => Entities.Count;
 
 }
 

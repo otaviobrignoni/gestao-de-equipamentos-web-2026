@@ -7,4 +7,5 @@ public interface IRepository<T> where T : BaseEntity<T>
     public bool Remove(Guid id);
     public bool TryGetEntity(Guid id, out T? entity);
     public IEnumerable<T> GetAll();
+    public int Count();
 }
