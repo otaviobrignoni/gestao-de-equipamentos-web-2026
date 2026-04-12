@@ -5,7 +5,10 @@ public class BaseRepository<T> where T : BaseEntity<T>
     protected readonly Dictionary<Guid, T> Entities = [];
     public void Add(T entity)
     {
-        entity.Id = Guid.NewGuid();
+        Guid id;
+        do id = Guid.NewGuid();
+        while (Entities.Any(e => e.Key == id));
+        entity.Id = id;
         Entities.Add(entity.Id, entity);
     }
     public bool Edit(Guid id, T updatedEntity)
