@@ -6,30 +6,30 @@ namespace GestaoDeEquipamentos.ConsoleApp.CallModule;
 
 public class CallUI : BaseUI<MaintenanceCall>
 {
-    private readonly EquipmentUI EquipmentUI;
+    private readonly EquipmentUI equipmentUI;
     public CallUI(EquipmentUI equipmentUI, ICallRepo callRepo) : base(callRepo)
     {
-        EquipmentUI = equipmentUI;
+        this.equipmentUI = equipmentUI;
     }
     public override void Menu()
     {
-        string[] options = ["Novo chamado", "Editar chamado", "Remover chamado", "Visualizar chamados", "Voltar"];
+        string[] options = ["Abrir chamado", "Editar chamado", "Fechar chamado", "Visualizar chamados", "Voltar"];
         while (true)
         {
             switch (Utils.Menu("Menu de Chamados de Manutenção", options))
             {
                 case 0:
-                    if (EquipmentUI.RepoCount < 1)
+                    if (equipmentUI.RepoCount < 1)
                     {
-                        Utils.MsgBox("Aviso", "Nenhum equipamento existe para fazer um chamado");
+                        Utils.MsgBox("Aviso", "Para abrir um chamado, registre um equipamento.");
                         continue;
                     }
-                    Create();
+                    Add();
                     break;
                 case 1:
                     if (RepoCount < 1)
                     {
-                        Utils.MsgBox("Aviso", "Nenhum chamado existe para editar");
+                        Utils.MsgBox("Aviso", "Nenhum chamado registrado para editar.");
                         continue;
                     }
                     Edit();
@@ -37,7 +37,7 @@ public class CallUI : BaseUI<MaintenanceCall>
                 case 2:
                     if (RepoCount < 1)
                     {
-                        Utils.MsgBox("Aviso", "Nenhum chamado existe para remover");
+                        Utils.MsgBox("Aviso", "Nenhum chamado registrado para fechar.");
                         continue;
                     }
                     Remove();
@@ -45,7 +45,7 @@ public class CallUI : BaseUI<MaintenanceCall>
                 case 3:
                     if (RepoCount < 1)
                     {
-                        Utils.MsgBox("Aviso", "Nenhum chamado existe para visualizar");
+                        Utils.MsgBox("Aviso", "Nenhum chamado registrado.");
                         continue;
                     }
                     View();
@@ -54,22 +54,22 @@ public class CallUI : BaseUI<MaintenanceCall>
             }
         }
     }
-    public override void Create()
+    public override void Add()
     {
         string title = "Abrir chamado";
         MaintenanceCall newCall = new(
             Utils.GetValidString(title, "Título do chamado: "),
             Utils.GetValidString(title, "Descrição do chamado: "),
-            EquipmentUI.Select(),
+            equipmentUI.Select(),
             DateTime.Now);
         newCall.Equipment.AddCall(newCall);
         Repository.Add(newCall);
-        Utils.MsgBox("Info", "Chamado de manutenção aberto com sucesso");
+        Utils.MsgBox("Info", "✓ Chamado aberto com sucesso!");
     }
     public override void Edit()
     {
         MaintenanceCall maintenanceCall = Select();
-        MaintenanceCall editedCall = new(maintenanceCall.Title, maintenanceCall.Description, maintenanceCall.Equipment, maintenanceCall.OpeningDate);
+        MaintenanceCall editedCall = new(maintenanceCall);
         string[] options = ["Título", "Descrição", "Equipamento", "Voltar"];
 
         while (true)
@@ -83,12 +83,12 @@ public class CallUI : BaseUI<MaintenanceCall>
                     editedCall.Description = Utils.GetValidString("Editar descrição", "Descrição do chamado: ");
                     break;
                 case 2:
-                    editedCall.Equipment = EquipmentUI.Select([editedCall.Equipment]);
+                    editedCall.Equipment = equipmentUI.Select([editedCall.Equipment]);
                     break;
                 case 3:
                     if (!editedCall.Equals(maintenanceCall))
                     {
-                        Utils.MsgBox("Info", "Chamado editado com sucesso");
+                        Utils.MsgBox("Info", "✓ Chamado atualizado com sucesso!");
                         maintenanceCall.UpdateEntity(editedCall);
                     }
                     return;
@@ -99,8 +99,8 @@ public class CallUI : BaseUI<MaintenanceCall>
     {
         MaintenanceCall call = Select();
         call.Equipment.RemoveCall(call.Id);
-        if (Repository.Remove(call.Id)) Utils.MsgBox("Info", "Chamado removido com sucesso");
-        else Utils.MsgBox("Info", "Ocorreu um erro na remoção do chamado");
+        if (Repository.Remove(call.Id)) Utils.MsgBox("Info", "✓ Chamado fechado com sucesso!");
+        else Utils.MsgBox("Info", "✗ Erro ao fechar o chamado. Tente novamente.");
     }
     public override void View()
     {

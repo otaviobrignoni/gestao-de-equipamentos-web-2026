@@ -9,7 +9,6 @@ public class MaintenanceCall : BaseEntity<MaintenanceCall>
     public string Description;
     public Equipment Equipment;
     public DateTime OpeningDate;
-
     public MaintenanceCall(string title, string description, Equipment equipment, DateTime date)
     {
         Title = title;
@@ -17,6 +16,7 @@ public class MaintenanceCall : BaseEntity<MaintenanceCall>
         Equipment = equipment;
         OpeningDate = date;
     }
+    public MaintenanceCall(MaintenanceCall maintenanceCall) : this(maintenanceCall.Title, maintenanceCall.Description, maintenanceCall.Equipment, maintenanceCall.OpeningDate) { }
 
     public string ElapsedTime()
     {
@@ -37,29 +37,27 @@ public class MaintenanceCall : BaseEntity<MaintenanceCall>
 
         return $"há {(int)(elapsedTime.TotalDays / 365)} ano(s)";
     }
-
+    public override void UpdateEntity(MaintenanceCall updatedCall)
+    {
+        if (Equipment != updatedCall.Equipment)
+        {
+            Equipment.RemoveCall(Id);
+            updatedCall.Equipment.AddCall(this);
+            Equipment = updatedCall.Equipment;
+        }
+        Title = updatedCall.Title;
+        Description = updatedCall.Description;
+        OpeningDate = updatedCall.OpeningDate;
+    }
     public override bool Equals(MaintenanceCall maintenanceCall)
     {
         if (maintenanceCall is null) return false;
-        if (Title != maintenanceCall.Title
-            || Description != maintenanceCall.Description
-            || Equipment != maintenanceCall.Equipment
-            || OpeningDate != maintenanceCall.OpeningDate)
+        if (maintenanceCall.Title != Title
+            || maintenanceCall.Description != Description
+            || maintenanceCall.Equipment != Equipment
+            || maintenanceCall.OpeningDate != OpeningDate)
             return false;
         return true;
 
-    }
-
-    public override void UpdateEntity(MaintenanceCall updatedEntity)
-    {
-        if (Equipment != updatedEntity.Equipment)
-        {
-            Equipment.RemoveCall(Id);
-            updatedEntity.Equipment.AddCall(this);
-            Equipment = updatedEntity.Equipment;
-        }
-        Title = updatedEntity.Title;
-        Description = updatedEntity.Description;
-        OpeningDate = updatedEntity.OpeningDate;
     }
 }

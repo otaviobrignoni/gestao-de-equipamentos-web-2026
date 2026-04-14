@@ -1,4 +1,5 @@
 using GestaoDeEquipamentos.ConsoleApp.CallModule;
+using GestaoDeEquipamentos.ConsoleApp.ManufacturerModule;
 using GestaoDeEquipamentos.ConsoleApp.Shared.BaseModule;
 
 namespace GestaoDeEquipamentos.ConsoleApp.EquipmentModule;
@@ -7,29 +8,34 @@ public class Equipment : BaseEntity<Equipment>
 {
     public string Name;
     public decimal Price;
-    public string Manufacturer;
+    public Manufacturer Manufacturer;
     public DateOnly Date;
     public List<MaintenanceCall> OpenCalls;
 
     public Equipment()
     {
         Name = string.Empty;
-        Manufacturer = string.Empty;
         OpenCalls = [];
     }
-    public Equipment(string name, decimal price, string manufacturer, DateOnly date) : this()
+    public Equipment(string name, decimal price, Manufacturer manufacturer, DateOnly date) : this()
     {
         Name = name;
         Price = price;
         Manufacturer = manufacturer;
         Date = date;
     }
-    public override void UpdateEntity(Equipment updatedEntity)
+    public Equipment(Equipment equipment) : this(equipment.Name, equipment.Price, equipment.Manufacturer, equipment.Date) { }
+    public override void UpdateEntity(Equipment updatedEquipment)
     {
-        Name = updatedEntity.Name;
-        Price = updatedEntity.Price;
-        Manufacturer = updatedEntity.Manufacturer;
-        Date = updatedEntity.Date;
+        if (Manufacturer != updatedEquipment.Manufacturer)
+        {
+            Manufacturer.RemoveEquipment(Id);
+            updatedEquipment.Manufacturer.AddEquipment(this);
+            Manufacturer = updatedEquipment.Manufacturer;
+        }
+        Name = updatedEquipment.Name;
+        Price = updatedEquipment.Price;
+        Date = updatedEquipment.Date;
     }
     public void AddCall(MaintenanceCall maintenanceCall)
     {

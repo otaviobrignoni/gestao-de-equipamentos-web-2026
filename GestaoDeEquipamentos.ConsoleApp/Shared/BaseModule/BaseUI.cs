@@ -10,7 +10,7 @@ public abstract class BaseUI<T> where T : BaseEntity<T>
 
     public int RepoCount => Repository.Count();
     public abstract void Menu();
-    public abstract void Create();
+    public abstract void Add();
     public abstract void Edit();
     public abstract void Remove();
     public abstract void View();
