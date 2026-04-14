@@ -52,9 +52,14 @@ public class MaintenanceCall : BaseEntity<MaintenanceCall>
 
     public override void UpdateEntity(MaintenanceCall updatedEntity)
     {
+        if (Equipment != updatedEntity.Equipment)
+        {
+            Equipment.RemoveCall(Id);
+            updatedEntity.Equipment.AddCall(this);
+            Equipment = updatedEntity.Equipment;
+        }
         Title = updatedEntity.Title;
         Description = updatedEntity.Description;
-        Equipment = updatedEntity.Equipment;
         OpeningDate = updatedEntity.OpeningDate;
     }
 }
