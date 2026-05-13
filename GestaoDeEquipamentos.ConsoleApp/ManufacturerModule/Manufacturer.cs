@@ -5,20 +5,17 @@ namespace GestaoDeEquipamentos.ConsoleApp.ManufacturerModule;
 
 public class Manufacturer : BaseEntity<Manufacturer>
 {
-    public string Name;
-    public string Email;
-    public string PhoneNumber;
-    public List<Equipment> Equipments;
+    public string Name { get; set; } = string.Empty;
+    public string Email { get; set; } = string.Empty;
+    public string PhoneNumber { get; set; } = string.Empty;
+    public List<Equipment> Equipments { get; } = [];
 
-    public Manufacturer() : this(string.Empty, string.Empty, string.Empty)
-    {
-    }
+    public Manufacturer() { }
     public Manufacturer(string name, string email, string phoneNumber)
     {
         Name = name;
         Email = email;
         PhoneNumber = phoneNumber;
-        Equipments = [];
     }
     public Manufacturer(Manufacturer manufacturer) : this(manufacturer.Name, manufacturer.Email, manufacturer.PhoneNumber) { }
 
@@ -33,12 +30,10 @@ public class Manufacturer : BaseEntity<Manufacturer>
     {
         Equipments.Add(equipment);
     }
-    public bool RemoveEquipment(Guid equipmentId)
+    public bool RemoveEquipment(Equipment? equipment)
     {
-        Equipment? equipment = Equipments.FirstOrDefault(e => e.Id == equipmentId);
         if (equipment is null) return false;
-        Equipments.Remove(equipment);
-        return true;
+        return Equipments.Remove(equipment);
     }
     public override bool Equals(Manufacturer manufacturer)
     {

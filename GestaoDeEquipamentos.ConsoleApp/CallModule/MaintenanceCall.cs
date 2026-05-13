@@ -5,10 +5,12 @@ namespace GestaoDeEquipamentos.ConsoleApp.CallModule;
 
 public class MaintenanceCall : BaseEntity<MaintenanceCall>
 {
-    public string Title;
-    public string Description;
-    public Equipment Equipment;
-    public DateTime OpeningDate;
+    public string Title { get; set; } = string.Empty;
+    public string Description { get; set; } = string.Empty;
+    public Equipment Equipment { get; set; } = null!;
+    public DateTime OpeningDate { get; set; }
+
+    public MaintenanceCall() { }
     public MaintenanceCall(string title, string description, Equipment equipment, DateTime date)
     {
         Title = title;
@@ -18,30 +20,29 @@ public class MaintenanceCall : BaseEntity<MaintenanceCall>
     }
     public MaintenanceCall(MaintenanceCall maintenanceCall) : this(maintenanceCall.Title, maintenanceCall.Description, maintenanceCall.Equipment, maintenanceCall.OpeningDate) { }
 
-    public string ElapsedTime()
+    public string ElapsedTime
     {
-        TimeSpan elapsedTime = DateTime.Now - OpeningDate;
+        get
+        {
+            double elapsedSeconds = (DateTime.Now - OpeningDate).TotalSeconds;
 
-        if (elapsedTime.TotalSeconds < 12)
-            return "Agora mesmo";
-        else if (elapsedTime.TotalSeconds < 60)
-            return $"há {(int)elapsedTime.TotalSeconds} segundo(s)";
-        if (elapsedTime.TotalMinutes < 60)
-            return $"há {(int)elapsedTime.TotalMinutes} minuto(s)";
-        if (elapsedTime.TotalHours < 24)
-            return $"há {(int)elapsedTime.TotalHours} hora(s)";
-        if (elapsedTime.TotalDays < 30)
-            return $"há {(int)elapsedTime.TotalDays} dia(s)";
-        if (elapsedTime.TotalDays < 365)
-            return $"há {(int)(elapsedTime.TotalDays / 30)} mês(es)";
-
-        return $"há {(int)(elapsedTime.TotalDays / 365)} ano(s)";
+            return elapsedSeconds switch
+            {
+                < 12 => "Agora mesmo",
+                < 60 => $"há {elapsedSeconds:F0} segundo(s)",
+                < 3600 => $"há {elapsedSeconds / 60:F0} minuto(s)", // 60 seconds in a minute
+                < 86400 => $"há {elapsedSeconds / 3600:F0} hora(s)", // 3600 seconds in an hour
+                < 2629800 => $"há {elapsedSeconds / 86400:F0} dia(s)", // 86400 seconds in a day
+                < 31557600 => $"há {elapsedSeconds / 2629800:F0} mês(es)", // 2629800 seconds in a month (30.44 days)
+                _ => $"há {elapsedSeconds / 31557600:F0} ano(s)" // 31557600 seconds in a year (365.25 days)
+            };
+        }
     }
     public override void UpdateEntity(MaintenanceCall updatedCall)
     {
         if (Equipment != updatedCall.Equipment)
         {
-            Equipment.RemoveCall(Id);
+            Equipment.RemoveCall(this);
             updatedCall.Equipment.AddCall(this);
             Equipment = updatedCall.Equipment;
         }

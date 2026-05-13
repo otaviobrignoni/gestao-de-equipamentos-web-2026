@@ -6,17 +6,13 @@ namespace GestaoDeEquipamentos.ConsoleApp.EquipmentModule;
 
 public class Equipment : BaseEntity<Equipment>
 {
-    public string Name;
-    public decimal Price;
-    public Manufacturer Manufacturer;
-    public DateOnly Date;
-    public List<MaintenanceCall> OpenCalls;
+    public string Name { get; set; } = string.Empty;
+    public decimal Price { get; set; }
+    public Manufacturer Manufacturer { get; set; } = null!;
+    public DateOnly Date { get; set; }
+    public List<MaintenanceCall> OpenCalls { get; } = [];
 
-    public Equipment()
-    {
-        Name = string.Empty;
-        OpenCalls = [];
-    }
+    public Equipment() { }
     public Equipment(string name, decimal price, Manufacturer manufacturer, DateOnly date) : this()
     {
         Name = name;
@@ -29,7 +25,7 @@ public class Equipment : BaseEntity<Equipment>
     {
         if (Manufacturer != updatedEquipment.Manufacturer)
         {
-            Manufacturer.RemoveEquipment(Id);
+            Manufacturer.RemoveEquipment(this);
             updatedEquipment.Manufacturer.AddEquipment(this);
             Manufacturer = updatedEquipment.Manufacturer;
         }
@@ -42,12 +38,10 @@ public class Equipment : BaseEntity<Equipment>
         OpenCalls.Add(maintenanceCall);
     }
 
-    public bool RemoveCall(Guid callId)
+    public bool RemoveCall(MaintenanceCall? call)
     {
-        MaintenanceCall? call = OpenCalls.FirstOrDefault(mc => mc.Id == callId);
         if (call is null) return false;
-        OpenCalls.Remove(call);
-        return true;
+        return OpenCalls.Remove(call);
     }
 
     public override bool Equals(Equipment equipment)
