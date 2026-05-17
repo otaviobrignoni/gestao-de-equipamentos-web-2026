@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using GestaoDeEquipamentos.ConsoleApp.EquipmentModule;
 using GestaoDeEquipamentos.ConsoleApp.Shared.BaseModule;
 
@@ -20,6 +21,7 @@ public class MaintenanceCall : BaseEntity<MaintenanceCall>
     }
     public MaintenanceCall(MaintenanceCall maintenanceCall) : this(maintenanceCall.Title, maintenanceCall.Description, maintenanceCall.Equipment, maintenanceCall.OpeningDate) { }
 
+    [JsonIgnore]
     public string ElapsedTime
     {
         get

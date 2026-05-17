@@ -10,7 +10,7 @@ public class Equipment : BaseEntity<Equipment>
     public decimal Price { get; set; }
     public Manufacturer Manufacturer { get; set; } = null!;
     public DateOnly Date { get; set; }
-    public List<MaintenanceCall> OpenCalls { get; } = [];
+    public List<MaintenanceCall> OpenCalls { get; private set; } = [];
 
     public Equipment() { }
     public Equipment(string name, decimal price, Manufacturer manufacturer, DateOnly date) : this()

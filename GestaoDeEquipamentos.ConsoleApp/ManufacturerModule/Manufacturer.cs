@@ -8,7 +8,7 @@ public class Manufacturer : BaseEntity<Manufacturer>
     public string Name { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
     public string PhoneNumber { get; set; } = string.Empty;
-    public List<Equipment> Equipments { get; } = [];
+    public List<Equipment> Equipments { get; private set; } = [];
 
     public Manufacturer() { }
     public Manufacturer(string name, string email, string phoneNumber)

@@ -1,8 +1,10 @@
-﻿namespace GestaoDeEquipamentos.ConsoleApp;
+﻿
+namespace GestaoDeEquipamentos.ConsoleApp;
 
 class Program
 {
     static void Main(string[] args)
     {
+        
     }
 }
