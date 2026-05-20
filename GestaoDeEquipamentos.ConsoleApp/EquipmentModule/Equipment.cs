@@ -13,14 +13,14 @@ public class Equipment : BaseEntity<Equipment>
     public List<MaintenanceCall> OpenCalls { get; private set; } = [];
 
     public Equipment() { }
-    public Equipment(string name, decimal price, Manufacturer manufacturer, DateOnly date) : this()
+    public Equipment(string name, decimal price, DateOnly date, Manufacturer manufacturer) : this()
     {
         Name = name;
         Price = price;
         Manufacturer = manufacturer;
         Date = date;
     }
-    public Equipment(Equipment equipment) : this(equipment.Name, equipment.Price, equipment.Manufacturer, equipment.Date) { }
+    public Equipment(Equipment equipment) : this(equipment.Name, equipment.Price, equipment.Date, equipment.Manufacturer) { }
     public override void UpdateEntity(Equipment updatedEquipment)
     {
         if (Manufacturer != updatedEquipment.Manufacturer)
