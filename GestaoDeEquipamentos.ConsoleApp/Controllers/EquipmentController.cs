@@ -15,6 +15,7 @@ public class EquipmentController : Controller
     public EquipmentController()
     {
         JsonContext context = new();
+        context.Load();
         equipmentRepo = new(context);
         manufacturerRepo = new(context);
     }
@@ -38,7 +39,7 @@ public class EquipmentController : Controller
     [HttpPost]
     public ActionResult Add(EquipmentViewModel vm)
     {
-        Manufacturer? m = manufacturerRepo.GetById(vm.Id);
+        Manufacturer? m = manufacturerRepo.GetById(vm.ManufacturerId);
 
         if (m is null || vm.ManufacturerId == Guid.Empty)
             ModelState.AddModelError(nameof(vm.ManufacturerId), "Selecione um fabricante válido.");
@@ -74,7 +75,7 @@ public class EquipmentController : Controller
     [HttpPost]
     public ActionResult Edit(EquipmentViewModel vm)
     {
-        Manufacturer? m = manufacturerRepo.GetById(vm.Id);
+        Manufacturer? m = manufacturerRepo.GetById(vm.ManufacturerId);
 
         if (m is null || vm.ManufacturerId == Guid.Empty)
             ModelState.AddModelError(nameof(vm.ManufacturerId), "Selecione um fabricante válido.");
@@ -115,8 +116,8 @@ public class EquipmentController : Controller
         return RedirectToAction(nameof(Index));
     }
 
-    private IEnumerable<SelectListItem> LoadManufacturers()
+    private List<SelectListItem> LoadManufacturers()
     {
-        return manufacturerRepo.Entities.Select(m => new SelectListItem(m.Name, m.Id.ToString()));
+        return manufacturerRepo.Entities.Select(m => new SelectListItem(m.Name, m.Id.ToString())).ToList();
     }
 }
