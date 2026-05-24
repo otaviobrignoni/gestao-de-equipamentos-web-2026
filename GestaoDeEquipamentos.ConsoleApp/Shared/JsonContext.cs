@@ -8,15 +8,15 @@ namespace GestaoDeEquipamentos.ConsoleApp.Shared;
 
 public class JsonContext
 {
-    public Dictionary<Guid, Manufacturer> Manufacturers { get; private set; } = [];
-    public Dictionary<Guid, Equipment> Equipments { get; private set; } = [];
-    public Dictionary<Guid, MaintenanceCall> Calls { get; private set; } = [];
+    public Dictionary<Guid, Manufacturer> Manufacturers { get; set; } = [];
+    public Dictionary<Guid, Equipment> Equipments { get; set; } = [];
+    public Dictionary<Guid, MaintenanceCall> Calls { get; set; } = [];
     private readonly string FilePath;
     private readonly JsonSerializerOptions options;
     public JsonContext()
     {
         string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-        string folderPath = Path.Combine(appDataPath, "GestaoDeEquipamentos");
+        string folderPath = Path.Combine(appDataPath, "GestaoDeEquipamentosWeb");
 
         Directory.CreateDirectory(folderPath);
         FilePath = Path.Combine(folderPath, "savedData.json");
