@@ -5,4 +5,15 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+    <Folder Include="Views\" />
+    <Folder Include="Views\Call\" />
+    <Folder Include="Views\Equipment\" />
+    <Folder Include="Views\Home\" />
+    <Folder Include="Views\Manufacturer\" />
+    <Folder Include="Views\Shared\" />
+    <Folder Include="wwwroot\" />
+    <Folder Include="wwwroot\css\" />
+  </ItemGroup>
 </Project>

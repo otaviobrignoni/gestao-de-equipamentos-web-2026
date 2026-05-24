@@ -1,0 +1,41 @@
+﻿@{
+    ViewBag.Titulo = "Listagem de Fabricantes";
+}
+
+@model IEnumerable<ManufacturerViewModel>;
+
+<a class="btn-cadastrar" asp-action="Add">Cadastrar Novo</a>
+
+@if (Model.Count() == 0)
+{
+    <p class="formulario-alerta">Nenhum fabricante cadastrado.</p>
+}
+else
+{
+    <table class="registros">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Email</th>
+                <th>Telefone</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (ManufacturerViewModel m in Model)
+            {
+                <tr>
+                    <td>@m.Id</td>
+                    <td>@m.Name</td>
+                    <td>@m.Email</td>
+                    <td>@m.PhoneNumber</td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@m.Id">Editar</a>
+                        <a asp-action="Remove" asp-route-id="@m.Id">Excluir</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

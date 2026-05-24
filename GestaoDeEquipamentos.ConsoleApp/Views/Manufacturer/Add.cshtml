@@ -1,0 +1,31 @@
+﻿@{
+    ViewBag.Titulo = "Cadastro de Fabricante";
+}
+
+@model ManufacturerViewModel;
+
+<form class="formulario" asp-action="Add" method="post">
+    
+    <div class="formulario-campo">
+        <label asp-for="Name">Nome</label>
+        <input asp-for="Name" type="text">
+        <span asp-validation-for="Name" class="formulario-validacao-campo"></span>
+    </div>
+
+    <div class="formulario-campo">
+        <label asp-for="Email">Email</label>
+        <input asp-for="Email" type="email">
+        <span asp-validation-for="Email" class="formulario-validacao-campo"></span>
+    </div>
+
+    <div class="formulario-campo">
+        <label asp-for="PhoneNumber">Telefone</label>
+        <input asp-for="PhoneNumber" type="text">
+        <span asp-validation-for="PhoneNumber" class="formulario-validacao-campo"></span>
+    </div>
+
+    <div class="formulario-acoes">
+        <a asp-action="Index">Voltar</a> 
+        <button type="submit">Confirmar</button>
+    </div>
+</form>

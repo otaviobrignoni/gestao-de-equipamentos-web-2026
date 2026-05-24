@@ -1,0 +1,36 @@
+﻿@{
+    ViewBag.Titulo = "Exclusão de Equipamento";
+}
+
+@model EquipmentShowViewModel;
+
+<form class="formulario" asp-action="Remove" asp-route-id="@Model.Id" method="post">
+    <input asp-for="Id" type="hidden">
+
+    <p class="formulario-alerta">Deseja realmente excluir este equipamento?</p>
+
+    <div class="formulario-campo">
+        <label asp-for="Name">Nome</label>
+        <input asp-for="Name" type="text" disabled>
+    </div>
+
+    <div class="formulario-campo">
+        <label asp-for="Price">Preço de Aquisição</label>
+        <input asp-for="Price" type="text" value="@Model.Price.ToString("C2")" disabled>
+    </div>
+    
+    <div class="formulario-campo">
+        <label asp-for="Date">Data de Fabricação</label>
+        <input asp-for="Date" type="text" asp-format="{0:dd/MM/yyyy}" disabled>
+    </div>
+
+    <div class="formulario-campo">
+        <label asp-for="Manufacturer">Fabricante</label>
+        <input asp-for="Manufacturer" type="text" disabled>
+    </div>
+
+    <div class="formulario-acoes">
+        <a asp-action="Index">Voltar</a>
+        <button type="submit">Confirmar</button>
+    </div>
+</form>

@@ -1,0 +1,45 @@
+﻿@{
+    ViewBag.Titulo = "Exclusão de Chamado";
+}
+
+@model CallShowViewModel;
+
+<form class="formulario" asp-action="Remove" asp-route-id="@Model.Id" method="post">
+
+    <p class="formulario-alerta">Deseja realmente excluir este chamado?</p>
+
+    <div class="formulario-campo">
+        <label asp-for="Title">Titulo</label>
+        <input asp-for="Title" type="text" disabled>
+    </div>
+
+    <div class="formulario-campo">
+        <label asp-for="Description">Descricao</label>
+        <textarea asp-for="Description" disabled></textarea>
+    </div>
+
+    <div class="formulario-campo">
+        <label asp-for="Equipment">Equipamento</label>
+        <input asp-for="Equipment" type="text" disabled>
+    </div>
+
+    <div class="formulario-campo">
+        <label asp-for="OpeningDate">Data de Abertura</label>
+        <input asp-for="OpeningDate" type="text" asp-format="{0:dd/MM/yyyy}" disabled>
+    </div>
+
+    <div class="formulario-campo">
+        <label asp-for="ElapsedTime">Tempo Decorrido</label>
+        <input asp-for="ElapsedTime" type="text" disabled>
+    </div>
+
+    <div class="formulario-campo">
+        <label>Status</label>
+        <input type="text" value="@(Model.IsDone? "Concluido" : "Aberto")" disabled>
+    </div>
+
+    <div class="formulario-acoes">
+        <a asp-action="Index">Voltar</a>
+        <button type="submit">Confirmar</button>
+    </div>
+</form>

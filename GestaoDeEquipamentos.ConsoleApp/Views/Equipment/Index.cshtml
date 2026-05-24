@@ -1,0 +1,43 @@
+﻿@{
+    ViewBag.Titulo = "Listagem de Equipamentos";
+}
+
+@model IEnumerable<EquipmentShowViewModel>
+
+<a class="btn-cadastrar" asp-action="Add">Cadastrar Novo</a>
+
+@if (Model.Count() == 0)
+{
+    <p class="formulario-alerta">Nenhum equipamento cadastrado.</p>
+}
+else
+{
+    <table class="registros">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Preço de Aquisição</th>
+                <th>Data de Fabricação</th>
+                <th>Fabricante</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (EquipmentShowViewModel e in Model)
+            {
+                <tr>
+                    <td>@e.Id</td>
+                    <td>@e.Name</td>
+                    <td>@e.Price.ToString("C2")</td>
+                    <td>@e.Date.ToShortDateString()</td>
+                    <td>@e.Manufacturer</td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@e.Id">Editar</a>
+                        <a asp-action="Remove" asp-route-id="@e.Id">Excluir</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

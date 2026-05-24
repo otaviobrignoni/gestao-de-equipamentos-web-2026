@@ -1,0 +1,31 @@
+﻿@{
+    ViewBag.Titulo = "Exclusão de Fabricante";
+}
+
+@model ManufacturerViewModel;
+
+<form class="formulario" asp-action="Remove" asp-route-id="@Model.Id" method="post">
+    <input asp-for="Id" type="hidden">
+    
+    <p class="formulario-alerta">Deseja realmente excluir este fabricante?</p>
+
+    <div class="formulario-campo">
+        <label asp-for="Name">Nome</label>
+        <input asp-for="Name" type="text" disabled>
+    </div>
+
+    <div class="formulario-campo">
+        <label asp-for="Email">Email</label>
+        <input asp-for="Email" type="email" disabled>
+    </div>
+
+    <div class="formulario-campo">
+        <label asp-for="PhoneNumber">Telefone</label>
+        <input asp-for="PhoneNumber" type="text" disabled>
+    </div>
+
+    <div class="formulario-acoes">
+        <a asp-action="Index">Voltar</a> 
+        <button type="submit">Confirmar</button>
+    </div>
+</form>
