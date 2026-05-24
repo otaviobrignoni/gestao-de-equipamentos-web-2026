@@ -7,19 +7,20 @@ namespace GestaoDeEquipamentos.ConsoleApp.CallModule;
 public class MaintenanceCall : BaseEntity<MaintenanceCall>
 {
     public string Title { get; set; } = string.Empty;
-    public string Description { get; set; } = string.Empty;
+    public string? Description { get; set; }
     public Equipment Equipment { get; set; } = null!;
-    public DateTime OpeningDate { get; set; }
+    public DateTime OpeningDate { get; set; } = DateTime.Now;
+    public bool IsDone { get; set; }
 
     public MaintenanceCall() { }
-    public MaintenanceCall(string title, string description, Equipment equipment, DateTime date)
+    public MaintenanceCall(string title, Equipment equipment, bool isDone, string? description = null)
     {
         Title = title;
         Description = description;
         Equipment = equipment;
-        OpeningDate = date;
+        IsDone = isDone;
     }
-    public MaintenanceCall(MaintenanceCall maintenanceCall) : this(maintenanceCall.Title, maintenanceCall.Description, maintenanceCall.Equipment, maintenanceCall.OpeningDate) { }
+    public MaintenanceCall(MaintenanceCall maintenanceCall) : this(maintenanceCall.Title, maintenanceCall.Equipment, maintenanceCall.IsDone, maintenanceCall.Description) { }
 
     [JsonIgnore]
     public string ElapsedTime
@@ -40,6 +41,14 @@ public class MaintenanceCall : BaseEntity<MaintenanceCall>
             };
         }
     }
+
+    [JsonIgnore]
+    public int IntElapsedTime => (DateTime.Now - OpeningDate).Days;
+
+    public void Complete()
+    {
+        IsDone = true;
+    }
     public override void UpdateEntity(MaintenanceCall updatedCall)
     {
         if (Equipment != updatedCall.Equipment)
@@ -51,6 +60,7 @@ public class MaintenanceCall : BaseEntity<MaintenanceCall>
         Title = updatedCall.Title;
         Description = updatedCall.Description;
         OpeningDate = updatedCall.OpeningDate;
+        IsDone = updatedCall.IsDone;
     }
     public override bool Equals(MaintenanceCall maintenanceCall)
     {
@@ -58,7 +68,8 @@ public class MaintenanceCall : BaseEntity<MaintenanceCall>
         if (maintenanceCall.Title != Title
             || maintenanceCall.Description != Description
             || maintenanceCall.Equipment != Equipment
-            || maintenanceCall.OpeningDate != OpeningDate)
+            || maintenanceCall.OpeningDate != OpeningDate
+            || maintenanceCall.IsDone != IsDone)
             return false;
         return true;
 

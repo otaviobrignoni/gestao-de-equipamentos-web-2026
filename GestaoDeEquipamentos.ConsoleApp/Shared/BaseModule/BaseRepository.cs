@@ -53,10 +53,9 @@ public abstract class BaseRepository<T> : IRepository<T> where T : BaseEntity<T>
     {
         return entities.GetValueOrDefault(id);
     }
-    public IEnumerable<T> GetAllExcept(IEnumerable<T>? ignoredEntities = null)
+    public IEnumerable<T> Where(Predicate<T> filter)
     {
-        ignoredEntities ??= [];
-        return Entities.Except(ignoredEntities);
+        return Entities.Where(e => filter(e));
     }
 }
 

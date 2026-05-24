@@ -9,5 +9,5 @@ public interface IRepository<T> where T : BaseEntity<T>
     bool Edit(Guid id, T updatedEntity);
     bool Remove(Guid id);
     T? GetById(Guid id);
-    IEnumerable<T> GetAllExcept(IEnumerable<T>? ignoredEntities = null);
+    IEnumerable<T> Where(Predicate<T> filter);
 }
